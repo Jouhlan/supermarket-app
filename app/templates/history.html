@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Action History - N.B Market</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+        .history-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .history-table {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table thead {
+            background-color: #343a40;
+            color: white;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .back-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        th, td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <h2 class="text-primary text-center">Action History</h2>
+        <p class="text-center text-muted">View all actions performed on loans in descending order of time.</p>
+        <table class="table table-bordered table-hover history-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Loan ID</th>
+                    <th>Reason</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in history %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ entry.changed_by }}</td>
+                        <td>{{ entry.action }}</td>
+                        <td>{{ entry.loan_id or 'N/A' }}</td>
+                        <td>{{ entry.modified_reason or 'N/A' }}</td>
+                        <td class="timestamp" data-utc="{{ entry.timestamp }}">{{ entry.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center back-buttons">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Dashboard</a>
+            <a href="{{ url_for('loans_and_investments') }}" class="btn btn-secondary">Back to Loans and Investments</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Loan - N.B Market</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-header h3 {
+            color: #343a40;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h3>Edit Loan</h3>
+            <p>Update the details of the selected loan entry.</p>
+        </div>
+        <form action="{{ url_for('edit_loan', id=loan.id) }}" method="POST">
+            <!-- Dynamic Dropdown for Asset Type -->
+            <div class="mb-3">
+                <label for="asset_type" class="form-label">Asset Type</label>
+                <select class="form-select" id="asset_type" name="asset_type" required>
+                    {% for option in options['asset_type'] %}
+                    <option value="{{ option }}" {% if loan.asset_type == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dynamic Dropdown for Loaned By -->
+            <div class="mb-3">
+                <label for="loaned_by" class="form-label">Loaned By</label>
+                <select class="form-select" id="loaned_by" name="loaned_by" required>
+                    {% for option in options['loaned_by'] %}
+                    <option value="{{ option }}" {% if loan.loaned_by == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="monthly_payment" class="form-label">Monthly Payment</label>
+                <input type="number" step="0.01" class="form-control" id="monthly_payment" name="monthly_payment" value="{{ loan.monthly_payment }}" required>
+            </div>
+
+            <!-- Dynamic Dropdown for Currency -->
+            <div class="mb-3">
+                <label for="currency" class="form-label">Currency</label>
+                <select class="form-select" id="currency" name="currency" required>
+                    {% for option in options['currency'] %}
+                    <option value="{{ option }}" {% if loan.currency == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="interest" class="form-label">Interest (%)</label>
+                <input type="number" step="0.01" class="form-control" id="interest" name="interest" value="{{ loan.interest }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="loan_amount" class="form-label">Loan Amount</label>
+                <input type="number" step="0.01" class="form-control" id="loan_amount" name="loan_amount" value="{{ loan.loan_amount }}" required>
+            </div>
+
+            <!-- Dynamic Dropdown for Investment Owner -->
+            <div class="mb-3">
+                <label for="investment_owner" class="form-label">Investment Owner</label>
+                <select class="form-select" id="investment_owner" name="investment_owner" required>
+                    {% for option in options['investment_owner'] %}
+                    <option value="{{ option }}" {% if loan.investment_owner == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dynamic Dropdown for Status -->
+            <div class="mb-3">
+                <label for="status_of_loan" class="form-label">Status of Loan</label>
+                <select class="form-select" id="status_of_loan" name="status_of_loan" required>
+                    {% for option in options['status_of_loan'] %}
+                    <option value="{{ option }}" {% if loan.status_of_loan == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="modified_reason" class="form-label">Modified Reason</label>
+                <textarea class="form-control" id="modified_reason" name="modified_reason" rows="3" required>{{ loan.modified_reason }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>
